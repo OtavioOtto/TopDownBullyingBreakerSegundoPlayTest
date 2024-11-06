@@ -10818,8 +10818,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 549.4332, y: -457.2946}
-  m_SizeDelta: {x: 712.4185, y: 62.0564}
+  m_AnchoredPosition: {x: 659, y: -483.933}
+  m_SizeDelta: {x: 949.426, y: 59.503}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &562723601
 MonoBehaviour:
@@ -10841,10 +10841,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Aperte      para abrir seu Invent\xE1rio"
+  m_text: Aperte      para abrir seu Inventario
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: edc7de079df128a47b7f0c8da2518488, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d1a091f84d72b1e4c88eb41800a88047, type: 2}
+  m_sharedMaterial: {fileID: 2519951714579838402, guid: d1a091f84d72b1e4c88eb41800a88047, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20817,7 +20817,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -186, y: 1}
+  m_AnchoredPosition: {x: -243, y: 0}
   m_SizeDelta: {x: 71.1912, y: 71.1909}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1053538612
@@ -28353,8 +28353,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 800, y: -506}
-  m_SizeDelta: {x: 293.22, y: 50}
+  m_AnchoredPosition: {x: 849.3473, y: -510.5}
+  m_SizeDelta: {x: 391.915, y: 59}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1463825649
 MonoBehaviour:
@@ -28378,8 +28378,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Salvando...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 1437b1758595b1e44addfdc3e1bb8b6b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d1a091f84d72b1e4c88eb41800a88047, type: 2}
+  m_sharedMaterial: {fileID: 2519951714579838402, guid: d1a091f84d72b1e4c88eb41800a88047, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -38775,20 +38775,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 10
-  spawnPoint: {fileID: 1468344686}
   rotacaoSpeed: 720
   canMove: 1
   currentWeapon: 
   currentDefenseItem: 
-  curativoQuant: 0
-  sucoQuant: 0
-  frutaQuant: 0
-  brocheQuant: 0
-  oculosQuant: 0
-  jaquetaQuant: 0
-  cadernoQuant: 0
-  lapisQuant: 0
-  tesouraQuant: 0
 --- !u!114 &1923039468
 MonoBehaviour:
   m_ObjectHideFlags: 0

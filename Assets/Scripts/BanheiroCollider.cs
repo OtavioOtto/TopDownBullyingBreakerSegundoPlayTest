@@ -12,14 +12,11 @@ public class BanheiroCollider : MonoBehaviour
     public Transform spawnPoint;
     private bool isPlayerInside;
     public bool canChangeUIState = true;
-    private bool cancChangeVerificationState = true;
     private GameObject instancia;
     PlayerController playerController;
-    UIBanheiroHandler uiBanheiroHandler;
     void Start()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        uiBanheiroHandler = banheiroUI.GetComponent<UIBanheiroHandler>();
     }
     private void Update()
     {

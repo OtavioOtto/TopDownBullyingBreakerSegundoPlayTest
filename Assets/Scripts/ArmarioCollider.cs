@@ -12,7 +12,6 @@ public class ArmarioCollider : MonoBehaviour
     [SerializeField] private bool playerIsInside = false;
     [Header("UI Object")]
     [SerializeField] private GameObject uiPapel;
-    private string tipoItem = "a";
     UIPapelHandler uiPapelHandler;
     void Start()
     {

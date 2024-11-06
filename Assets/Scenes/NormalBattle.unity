@@ -1360,10 +1360,10 @@ MonoBehaviour:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: AttackButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 461071435}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1570,8 +1570,8 @@ MonoBehaviour:
   enemyDefeated: {fileID: 2032770294}
   enemyConverted: {fileID: 1444573514}
   enemyWon: {fileID: 880445776}
-  playerAttackValue: 0.75
-  playerEmpathyValue: 0.5
+  playerAttackValue: 0.05
+  playerEmpathyValue: 0.06
   attackButton: {fileID: 997163618}
   empathyButton: {fileID: 1184632722}
   itemButton: {fileID: 1375329638}
@@ -1592,20 +1592,20 @@ MonoBehaviour:
   firstEmpathyButtonTxt: {fileID: 123621746}
   secondEmpathyButton: {fileID: 1409627393}
   secondEmpathyButtonTxt: {fileID: 1703224294}
-  firstItemButton: {fileID: 0}
-  firstItemButtonTxt: {fileID: 0}
-  secondItemButton: {fileID: 0}
-  secondItemButtonTxt: {fileID: 0}
-  thirdItemButton: {fileID: 0}
-  thirdItemButtonTxt: {fileID: 0}
-  itemOptions: {fileID: 0}
+  firstItemButton: {fileID: 1564167850}
+  firstItemButtonTxt: {fileID: 1131894771}
+  secondItemButton: {fileID: 1087199006}
+  secondItemButtonTxt: {fileID: 1414737315}
+  thirdItemButton: {fileID: 997657033}
+  thirdItemButtonTxt: {fileID: 15777499}
+  itemOptions: {fileID: 2003077028}
   empathyOptions: {fileID: 1709306273}
   attackOptions: {fileID: 1895428211}
   defaultOptions: {fileID: 736734356}
-  enemyAttackValue: 0.25
+  enemyAttackValue: 0.1
   enemyHealthValue: 1
-  battlePoints: 0.25
-  battlePointsTxt: {fileID: 0}
+  battlePoints: 0
+  battlePointsTxt: {fileID: 242396694}
   itemHealValue: 0.1
 --- !u!1 &490642770
 GameObject:
@@ -3065,7 +3065,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: AttackButton
+        m_MethodName: AttackOptions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3200,13 +3200,13 @@ MonoBehaviour:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: ItemButton
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: fruta
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &997657034
@@ -3409,13 +3409,13 @@ MonoBehaviour:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: ItemButton
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: suco
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1087199007
@@ -3676,7 +3676,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: EmpathyButton
+        m_MethodName: EmpathyOptions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3892,10 +3892,10 @@ MonoBehaviour:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: EmpathyButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1258865126}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4464,7 +4464,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: ItemButton
+        m_MethodName: ItemOptions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4674,10 +4674,10 @@ MonoBehaviour:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: EmpathyButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1409627391}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5094,13 +5094,13 @@ MonoBehaviour:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: ItemButton
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: curativo
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1564167851
@@ -6494,10 +6494,10 @@ MonoBehaviour:
       - m_Target: {fileID: 473316995}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
         m_MethodName: AttackButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1912471340}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

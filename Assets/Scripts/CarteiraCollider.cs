@@ -15,6 +15,7 @@ public class CarteiraCollider : MonoBehaviour
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         Transform child = transform.GetChild(0);
+        item = child.name;
         carteiraRenderer = carteira.GetComponent<SpriteRenderer>();
     }
     private void Update()

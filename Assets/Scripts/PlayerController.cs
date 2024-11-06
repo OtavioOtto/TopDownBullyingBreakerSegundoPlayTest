@@ -7,13 +7,11 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed;
     [Header("Player Properties")]
-    public Transform spawnPoint;
+    public static Transform spawnPoint;
     public float rotacaoSpeed = 720;
     private Rigidbody2D rb;
     public bool canMove = true;
     public static PlayerController player;
-    public string currentWeapon;
-    public string currentDefenseItem;
 
     [Header("Item Quantities")]
     public static int curativoQuant;
@@ -26,37 +24,24 @@ public class PlayerController : MonoBehaviour
     public static int lapisQuant;
     public static int tesouraQuant;
 
+    [Header("Equipped Items")]
+    public static string currentWeapon;
+    public static string currentDefenseItem;
+
     void Start()
     {
-        //instancia = Instantiate(this.gameObject);
-        //player.gameObject.transform.position = spawnPoint.position;
         rb = GetComponent<Rigidbody2D>();
     }
 
-    /*private void Awake()
-    {
-        player = this;
-        DontDestroyOnLoad(this.gameObject);
-    }*/
 
 
     void Update()
     {
         if(canMove)
         HandleMovement();
-        //VerifyScene();
 
     }
 
-    private void FixedUpdate()
-    {
-        /*if (rb.velocity != Vector2.zero)
-        {
-            Quaternion rotacaoDesejada = Quaternion.LookRotation(transform.forward, rb.velocity);
-            Quaternion rotacao = Quaternion.RotateTowards(transform.rotation, rotacaoDesejada, rotacaoSpeed * Time.deltaTime);
-            rb.MoveRotation(rotacao);
-        }*/
-    }
     public void HandleMovement()
     {
 
@@ -105,7 +90,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public float GetWeaponDamage()
+    public static float GetWeaponDamage()
     {
         float damage = 0;
         if (currentWeapon == "caderno") {
@@ -125,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public float GetItemDefense()
+    public static float GetItemDefense()
     {
         float defense = 0;
         if (currentDefenseItem == "broche")

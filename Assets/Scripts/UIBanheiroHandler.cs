@@ -41,8 +41,11 @@ public class UIBanheiroHandler : MonoBehaviour
     [SerializeField] private Button item1BTTN;
     [SerializeField] private Button item2BTTN;
     [SerializeField] private Button item3BTTN;
+    [Header("Itens Texts")]
+    [SerializeField] private TMP_Text item1Txt;
+    [SerializeField] private TMP_Text item2Txt;
+    [SerializeField] private TMP_Text item3Txt;
     private string[] listaItensAtaque;
-    private string[] listaItensCura;
     private string[] listaItensDefesa;
     private string[] listaBuffs;
     [Header("Itens Select")]
@@ -70,31 +73,13 @@ public class UIBanheiroHandler : MonoBehaviour
     [SerializeField] private TMP_Text itemJimmyDefesa;
     [SerializeField] private TMP_Text jimmyBuff;
 
-    PlayerController playerController;
-    BanheiroCollider banheiroCollider;
-    public GameObject banheiroOBJ;
     float x0;
 
     void Start()
     {
         x0 = Input.GetAxis("HORIZONTAL0");
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        banheiroCollider = banheiroOBJ.GetComponent<BanheiroCollider>();
 
-        for (int i = 0; i < listaItensCura.Length; i++) {
 
-            if (listaItensCura[i] != null) {
-
-                if (item1.text != null)
-                    item1.text = listaItensCura[i];
-                else if (item2.text != null)
-                    item2.text = listaItensCura[i];
-                else if (item3.text != null)
-                    item3.text = listaItensCura[i];
-
-            }
-
-        }
     }
     void Update()
     {
@@ -105,9 +90,11 @@ public class UIBanheiroHandler : MonoBehaviour
         ItemChange();
         HealItens();
         HealItensScreen();
+        SetHealItemQuantities();
 
     }
-    private void ChangeScreens() {
+    private void ChangeScreens()
+    {
         if (canChangeScreen)
         {
             if (Input.GetButtonDown("HORIZONTAL0"))
@@ -131,7 +118,8 @@ public class UIBanheiroHandler : MonoBehaviour
             }
         }
     }
-    private void BullyAttributes() {
+    private void BullyAttributes()
+    {
 
         if (recrutados.activeSelf && EventSystem.current.currentSelectedGameObject.GetComponent<Button>() == bully1Select)
         {
@@ -157,8 +145,9 @@ public class UIBanheiroHandler : MonoBehaviour
             pencilJimmy.SetActive(true);
             pencilAlice.SetActive(false);
             pencilItens.SetActive(false);
-            if (Input.GetButtonDown("VERDE0")) { 
-            
+            if (Input.GetButtonDown("VERDE0"))
+            {
+
                 dadosJimmy.SetActive(true);
                 pencilJimmy.SetActive(false);
                 defesaJimmyPencil.SetActive(true);
@@ -240,7 +229,7 @@ public class UIBanheiroHandler : MonoBehaviour
         }
     }
     private void CharacterAttributesScreen()
-    { 
+    {
 
         if (dadosJimmy.activeSelf == true)
         {
@@ -281,7 +270,7 @@ public class UIBanheiroHandler : MonoBehaviour
             {
                 ataqueAlicePencil.SetActive(false);
                 defesaAlicePencil.SetActive(true);
-                buffAlicePencil.SetActive(false);            
+                buffAlicePencil.SetActive(false);
             }
 
             if (EventSystem.current.currentSelectedGameObject.GetComponent<Button>() == buffAliceSelect)
@@ -298,7 +287,7 @@ public class UIBanheiroHandler : MonoBehaviour
 
         if (dadosItens.activeSelf == true)
         {
-                        
+
             if (EventSystem.current.currentSelectedGameObject.GetComponent<Button>() == item1BTTN)
             {
                 item1Select.SetActive(true);
@@ -321,7 +310,8 @@ public class UIBanheiroHandler : MonoBehaviour
             }
         }
     }
-    private void ItemChange() {
+    private void ItemChange()
+    {
         if (dadosJimmy.activeSelf == true)
         {
 
@@ -524,21 +514,12 @@ public class UIBanheiroHandler : MonoBehaviour
 
         }
     }
-    public void UIActiveOrDeactivate() {
 
-        if (canCloseUI) {
+    private void SetHealItemQuantities() {
 
-            banheiroCollider.canChangeUIState = true;
-
-        }
-
-        if (!canCloseUI)
-        {
-
-            banheiroCollider.canChangeUIState = false;
-
-        }
-
+        item1Txt.text = "Curativo - " + PlayerController.curativoQuant + "     +10 hp";
+        item2Txt.text = "Suco - " + PlayerController.sucoQuant + "           +15 hp";
+        item3Txt.text = "Fruta - " + PlayerController.frutaQuant + "         +20 hp";
 
     }
 }

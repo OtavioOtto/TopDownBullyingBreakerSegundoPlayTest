@@ -29,8 +29,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject enemyWon;
 
     [Header("Player Actions")]
-    [SerializeField] private float playerAttackValue = .75f;
-    [SerializeField] private float playerEmpathyValue = .5f;
+    [SerializeField] private float playerAttackValue = .05f;
+    [SerializeField] private float playerEmpathyValue = .06f;
 
     [Header("Action Buttons")]
     [SerializeField] private Button attackButton;
@@ -77,11 +77,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject defaultOptions;
 
     [Header("Enemy Stats")]
-    [SerializeField] private float enemyAttackValue = 0.25f;
+    [SerializeField] private float enemyAttackValue = 0.10f;
     [SerializeField] private float enemyHealthValue = 1.0f;
 
     [Header("Player Stats")]
-    [SerializeField] private float battlePoints = 0.25f;
+    [SerializeField] private float battlePoints;
     [SerializeField] private TMP_Text battlePointsTxt;
 
     [Header("Items")]
@@ -91,12 +91,13 @@ public class GameController : MonoBehaviour
     private int currentTurnIndex;
     private float menu;
     private float weaponAttackValue;
-    PlayerController playerController;
-
+    private float itemDefenseValue;
     void Start()
     {
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>(); // dps muda isso
-        weaponAttackValue = playerController.GetWeaponDamage();
+        if(PlayerController.currentWeapon != null)
+            weaponAttackValue = PlayerController.GetWeaponDamage();
+        if(PlayerController.currentDefenseItem != null)
+            itemDefenseValue = PlayerController.GetItemDefense();
         InitializeGame();
     }
     private void Update()
@@ -105,9 +106,8 @@ public class GameController : MonoBehaviour
         Menu();
         SetButtonTexts();
         ReturnToDefaultButtons();
-
+        UpdateBattlePoints();
     }
-
     private void InitializeGame()
     {
         turnOrder = new List<GameObject> { player1, player2, enemy };
@@ -116,7 +116,6 @@ public class GameController : MonoBehaviour
         enemyHealth.value = enemyHealthValue;
         UpdateTurn();
     }
-
     private void UpdateTurn()
     {
         DeactivateSelections();
@@ -124,65 +123,73 @@ public class GameController : MonoBehaviour
 
         if (turnOrder[currentTurnIndex] == player1)
         {
-            battlePoints += 4;
             ActivatePlayer1Turn();
+            defaultOptions.SetActive(true);
+            itemOptions.SetActive(false);
+            empathyOptions.SetActive(false);
+            attackOptions.SetActive(false);
             EventSystem.current.SetSelectedGameObject(attackButtonGM);
         }
         else if (turnOrder[currentTurnIndex] == player2)
         {
             ActivatePlayer2Turn();
+            defaultOptions.SetActive(true);
+            itemOptions.SetActive(false);
+            empathyOptions.SetActive(false);
+            attackOptions.SetActive(false);
             EventSystem.current.SetSelectedGameObject(attackButtonGM);
         }
         else if (turnOrder[currentTurnIndex] == enemy)
         {
+            attackButtonTxt.SetActive(false);
+            defaultOptions.SetActive(true);
+            itemOptions.SetActive(false);
+            empathyOptions.SetActive(false);
+            attackOptions.SetActive(false);
             ActivateEnemyTurn();
         }
     }
-
     private void DeactivateSelections()
     {
         player1Selection.SetActive(false);
         player2Selection.SetActive(false);
         enemySelection.SetActive(false);
     }
-
     private void DisableActionButtons()
     {
         attackButton.interactable = false;
         empathyButton.interactable = false;
         itemButton.interactable = false;
     }
-
     private void ActivatePlayer1Turn()
     {
         player1Selection.SetActive(true);
         EnableActionButtons();
     }
-
     private void ActivatePlayer2Turn()
     {
         player2Selection.SetActive(true);
         EnableActionButtons();
     }
-
     private void ActivateEnemyTurn()
     {
         enemySelection.SetActive(true);
         StartCoroutine(EnemyAttackRoutine());
     }
-
     private void EnableActionButtons()
     {
         attackButton.interactable = true;
         empathyButton.interactable = true;
         itemButton.interactable = true;
     }
-
     private IEnumerator EnemyAttackRoutine()
     {
         yield return new WaitForSeconds(1.0f);
-        playerHealth.value -= playerHealth.maxValue * enemyAttackValue;
+        if (PlayerController.currentDefenseItem != null)
+            playerHealth.value -= playerHealth.maxValue * (enemyAttackValue - itemDefenseValue);
 
+        else
+            playerHealth.value -= playerHealth.maxValue * enemyAttackValue;
         if (playerHealth.value <= 0)
         {
             enemyWon.SetActive(true);
@@ -194,28 +201,27 @@ public class GameController : MonoBehaviour
             NextTurn();
         }
     }
-
     public void EmpathyOptions()
     {
 
         if (battlePoints > 15)
         {
-            attackOptions.SetActive(true);
+            empathyOptions.SetActive(true);
+            secondEmpathyButton.interactable = true;
             defaultOptions.SetActive(false);
-            firstAttackButton.Select();
+            firstEmpathyButton.Select();
         }
 
 
         else
         {
-            attackOptions.SetActive(true);
+            empathyOptions.SetActive(true);
             defaultOptions.SetActive(false);
-            firstAttackButton.Select();
-            secondAttackButton.interactable = false;
+            firstEmpathyButton.Select();
+            secondEmpathyButton.interactable = false;
         }
         
     }
-
     public void EmpathyButton(GameObject chonsenButton) {
 
         AdjustEnemyAura(chonsenButton);
@@ -231,10 +237,9 @@ public class GameController : MonoBehaviour
         }
 
     }
-
     private void AdjustEnemyAura(GameObject buttonOBJ)
     {
-        if (buttonOBJ == firstEmpathyButton)
+        if (buttonOBJ == firstEmpathyButton.gameObject)
         {
             Color auraColor = enemyAura.GetComponent<Image>().color;
 
@@ -242,7 +247,7 @@ public class GameController : MonoBehaviour
             enemyAura.GetComponent<Image>().color = auraColor;
         }
 
-        else if (buttonOBJ == secondEmpathyButton)
+        else if (buttonOBJ == secondEmpathyButton.gameObject)
         {
             Color auraColor = enemyAura.GetComponent<Image>().color;
 
@@ -252,12 +257,12 @@ public class GameController : MonoBehaviour
 
 
     }
-
     public void AttackOptions()
     {
-        if (battlePoints > 10 && playerController.currentWeapon != null)
+        if (battlePoints > 10 && PlayerController.currentWeapon != null)
         {
             attackOptions.SetActive(true);
+            secondAttackButton.interactable = true;
             defaultOptions.SetActive(false);
             firstAttackButton.Select();
         }
@@ -272,7 +277,6 @@ public class GameController : MonoBehaviour
         }
 
     }
-
     public void AttackButton(GameObject chosenButton)
     {
             AdjustEnemyHealth(chosenButton);
@@ -288,7 +292,6 @@ public class GameController : MonoBehaviour
             NextTurn();
         }
     }
-
     private void ReturnToDefaultButtons() {
 
         if (attackOptions.activeSelf && Input.GetButtonDown("BRANCO0")) {
@@ -318,78 +321,70 @@ public class GameController : MonoBehaviour
         }
 
     }
-
     private void AdjustEnemyHealth(GameObject buttonOBJ)
     {
-        if (buttonOBJ == firstAttackButton)
+        if (buttonOBJ == firstAttackButton.gameObject)
         {
             enemyHealth.value -= enemyHealth.maxValue * playerAttackValue;
         }
 
-        else if(buttonOBJ == secondAttackButton)
+        else if(buttonOBJ == secondAttackButton.gameObject)
         {
             enemyHealth.value -= enemyHealth.maxValue * playerAttackValue * weaponAttackValue;
         }
     }
-
     public void ItemOptions()
     {
-        if (playerController.curativoQuant > 0 && playerController.sucoQuant < 0 && playerController.frutaQuant < 0) 
+        itemOptions.SetActive(true);
+        defaultOptions.SetActive(false);
+        if (PlayerController.curativoQuant > 0 && PlayerController.sucoQuant < 0 && PlayerController.frutaQuant < 0) 
         {
-            itemOptions.SetActive(true);
-            defaultOptions.SetActive(false);
             firstItemButton.Select();
             secondItemButton.interactable = false;
             thirdItemButton.interactable = false;
         }
 
-        else if (playerController.curativoQuant > 0 && playerController.sucoQuant > 0 && playerController.frutaQuant < 0)
+        else if (PlayerController.curativoQuant > 0 && PlayerController.sucoQuant > 0 && PlayerController.frutaQuant < 0)
         {
-            itemOptions.SetActive(true);
-            defaultOptions.SetActive(false);
             firstItemButton.Select();
             thirdItemButton.interactable = false;
         }
 
-        else if (playerController.curativoQuant > 0 && playerController.sucoQuant > 0 && playerController.frutaQuant > 0)
+        else if (PlayerController.curativoQuant > 0 && PlayerController.sucoQuant > 0 && PlayerController.frutaQuant > 0)
         {
-            itemOptions.SetActive(true);
-            defaultOptions.SetActive(false);
             firstItemButton.Select();
         }
 
-        else if (playerController.curativoQuant < 0 && playerController.sucoQuant > 0 && playerController.frutaQuant < 0)
+        else if (PlayerController.curativoQuant < 0 && PlayerController.sucoQuant > 0 && PlayerController.frutaQuant < 0)
         {
-            itemOptions.SetActive(true);
-            defaultOptions.SetActive(false);
             secondItemButton.Select();
             firstItemButton.interactable = false;
             thirdItemButton.interactable = false;
         }
 
-        else if (playerController.curativoQuant < 0 && playerController.sucoQuant > 0 && playerController.frutaQuant > 0)
+        else if (PlayerController.curativoQuant < 0 && PlayerController.sucoQuant > 0 && PlayerController.frutaQuant > 0)
         {
-            itemOptions.SetActive(true);
-            defaultOptions.SetActive(false);
+
             secondItemButton.Select();
             firstItemButton.interactable = false;
         }
 
-        else if (playerController.curativoQuant > 0 && playerController.sucoQuant < 0 && playerController.frutaQuant > 0)
+        else if (PlayerController.curativoQuant > 0 && PlayerController.sucoQuant < 0 && PlayerController.frutaQuant > 0)
         {
-            itemOptions.SetActive(true);
-            defaultOptions.SetActive(false);
             firstItemButton.Select();
             secondItemButton.interactable = false;
         }
 
-        else if (playerController.curativoQuant < 0 && playerController.sucoQuant < 0 && playerController.frutaQuant > 0)
+        else if (PlayerController.curativoQuant < 0 && PlayerController.sucoQuant < 0 && PlayerController.frutaQuant > 0)
         {
-            itemOptions.SetActive(true);
-            defaultOptions.SetActive(false);
             thirdItemButton.Select();
             secondItemButton.interactable = false;
             firstItemButton.interactable = false;
+        }
+        else {
+            firstItemButton.interactable = false;
+            secondItemButton.interactable = false;
+            thirdItemButton.interactable = false;
         }
     }
     public void ItemButton(string itemName) 
@@ -397,7 +392,6 @@ public class GameController : MonoBehaviour
         AdjustPlayerHealth(itemName);
         NextTurn();
     }
-
     private void AdjustPlayerHealth(string item) {
 
         if (item == "curativo") {
@@ -421,21 +415,19 @@ public class GameController : MonoBehaviour
         }
 
     }
-
-
     private void NextTurn()
     {
+        if (turnOrder[currentTurnIndex] == enemy)
+            battlePoints += 4;
         currentTurnIndex = (currentTurnIndex + 1) % turnOrder.Count;
         UpdateTurn();
 
         
     }
-
     public void ResetSceneButton()
     {
         SceneManager.LoadScene("TopDownLuzDaEsperanca");
     }
-
     public void NextSceneButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -538,7 +530,6 @@ public class GameController : MonoBehaviour
         }
 
     }
-
     private void UpdateBattlePoints()
     {
 
