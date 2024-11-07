@@ -72,14 +72,14 @@ public class UIBanheiroHandler : MonoBehaviour
     [SerializeField] private TMP_Text itemJimmyAtaque;
     [SerializeField] private TMP_Text itemJimmyDefesa;
     [SerializeField] private TMP_Text jimmyBuff;
+    [Header("Inventory System")]
+    public InventoryHandler inventory;
 
     float x0;
 
     void Start()
     {
         x0 = Input.GetAxis("HORIZONTAL0");
-
-
     }
     void Update()
     {
@@ -312,33 +312,51 @@ public class UIBanheiroHandler : MonoBehaviour
     }
     private void ItemChange()
     {
+        string newItem = "";
+
+        string caderno = "Caderno\n+2 Ataque";
+        string lapis = "Lapis\n+3 Ataque";
+        string tesoura = "Tesoura\n+6 Ataque";
+
+        string broche = "Broche\n+3 Defesa";
+        string oculos = "Oculos\n+5 Ataque";
+        string jaqueta = "Jaqueta\n+9 Ataque";
+        //essa parte eh a certa
         if (dadosJimmy.activeSelf == true)
         {
 
             if (EventSystem.current.currentSelectedGameObject.GetComponent<Button>() == ataqueJimmySelect)
             {
 
-                int position = Array.FindIndex(listaItensAtaque, item => item == itemJimmyAtaque.text);
+                
 
-                if (Input.GetButtonDown("HORIZONTAL0") && x0 > 0 && !canChangeScreen)
+                if (!canChangeScreen && ((Input.GetButtonDown("HORIZONTAL0") && x0 > 0 && itemJimmyAtaque.text == caderno)||(Input.GetButtonDown("HORIZONTAL0") && x0 < 0 && itemJimmyAtaque.text == tesoura)) )
                 {
 
-                    position++;
-                    itemJimmyAtaque.text = listaItensAtaque[position] + "\n+" + 4 + " Ataque"; //deixar o valor variavel
+                    itemJimmyAtaque.text = lapis;
+                    newItem = lapis;
 
                 }
 
-                if (Input.GetButtonDown("HORIZONTAL0") && x0 < 0 && !canChangeScreen)
+                else if (Input.GetButtonDown("HORIZONTAL0") && x0 < 0 && !canChangeScreen && itemJimmyAtaque.text == lapis)
                 {
 
-                    position--;
-                    itemJimmyAtaque.text = listaItensAtaque[position] + "\n+" + 4 + " Ataque"; //deixar o valor variavel
+                    itemJimmyAtaque.text = caderno;
+                    newItem = caderno;
+
+                }
+
+                else if (Input.GetButtonDown("HORIZONTAL0") && x0 > 0 && !canChangeScreen && itemJimmyAtaque.text == lapis)
+                {
+
+                    itemJimmyAtaque.text = tesoura;
+                    newItem = tesoura;
 
                 }
                 if (Input.GetButtonDown("VERDE0"))
                 {
-
-                    //setar o item no inventario dps e como inutilizavel por outros, e dessetar o anterior
+                    
+                    inventory.ChangeItem(newItem, "player1");
                     dadosJimmy.SetActive(false);
                     pencilJimmy.SetActive(true);
                     jimmySelect.Select();
@@ -514,12 +532,11 @@ public class UIBanheiroHandler : MonoBehaviour
 
         }
     }
-
     private void SetHealItemQuantities() {
 
-        item1Txt.text = "Curativo - " + PlayerController.curativoQuant + "     +10 hp";
-        item2Txt.text = "Suco - " + PlayerController.sucoQuant + "           +15 hp";
-        item3Txt.text = "Fruta - " + PlayerController.frutaQuant + "         +20 hp";
+        item1Txt.text = "Curativo - " + inventory.curativoQuant + "     +10 hp";
+        item2Txt.text = "Suco - " + inventory.sucoQuant + "           +15 hp";
+        item3Txt.text = "Fruta - " + inventory.frutaQuant + "         +20 hp";
 
     }
 }
