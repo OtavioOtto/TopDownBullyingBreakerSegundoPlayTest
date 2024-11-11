@@ -90,13 +90,15 @@ public class GameController : MonoBehaviour
     private List<GameObject> turnOrder;
     private int currentTurnIndex;
     private float menu;
-    private float weaponAttackValue;
+    private float weaponAttackValue;// muda pra 2 player
     private float itemDefenseValue;
+    [Header("Player inventory")]
+    public InventoryHandler inventory;
     void Start()
     {
-        if(PlayerController.currentWeapon != null)
+        if(inventory.currentAttackItem1 != null)
             weaponAttackValue = PlayerController.GetWeaponDamage();
-        if(PlayerController.currentDefenseItem != null)
+        if(PlayerController.currentDefenseItem != null)// tira tds os player controller
             itemDefenseValue = PlayerController.GetItemDefense();
         InitializeGame();
     }
@@ -185,7 +187,7 @@ public class GameController : MonoBehaviour
     private IEnumerator EnemyAttackRoutine()
     {
         yield return new WaitForSeconds(1.0f);
-        if (PlayerController.currentDefenseItem != null)
+        if (PlayerController.currentDefenseItem != "")
             playerHealth.value -= playerHealth.maxValue * (enemyAttackValue - itemDefenseValue);
 
         else

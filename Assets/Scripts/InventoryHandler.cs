@@ -16,16 +16,20 @@ public class InventoryHandler : ScriptableObject
     public int lapisQuant;
     public int tesouraQuant;
 
+    [Header("Buffs")]
+    public bool hasAnyBuffs = false;
+    public bool attackBuff = false;
+    public bool healingBuff = false;
+    public bool empathyBuff = false;
+
     [Header("Itens Equipados Player 1")]
     public string currentAttackItem1;
     public string currentDefenseItem1;
     public string currentEquippedBuff1;
 
-    [Header("Stats Player 1")]
-    public float hp1 = 1;
+    [Header("Stats Players")]
+    public float hp = 1;
 
-    [Header("Stats Player 2")]
-    public float hp2 = 1;
 
     [Header("General")]
     public Transform spawnpoint;
@@ -35,17 +39,20 @@ public class InventoryHandler : ScriptableObject
     public string currentDefenseItem2;
     public string currentEquippedBuff2;
 
+    [Header("Inimigos Recrutados")]
+    public RecruitedEnemiesHadler enemies;
+
     public void ChangeItem(string newItem, string qualPlayer) {
-        string[] itensDano = {"caderno", "lapis", "tesoura"};
+        string[] itensDano = { "caderno", "lapis", "tesoura" };
         string[] itensDefesa = { "broche", "oculos", "jaqueta" };
-        //string[] itensBuff = { "caderno", "lapis", "tesoura" }; preciso pensa nos buff e fazer a troca tmb
         if (qualPlayer == "player1")
         {
             for (int i = 0; i < itensDano.Length; i++)
             {
+                Debug.Log(newItem);
                 if (newItem == itensDano[i])
                 {
-                    if (currentAttackItem1 != null)
+                    if (currentAttackItem1 != "")
                     {
                         if (currentAttackItem1 == "caderno")
                             cadernoQuant++;
@@ -67,10 +74,13 @@ public class InventoryHandler : ScriptableObject
             {
                 if (newItem == itensDefesa[i])
                 {
-                    if (currentDefenseItem1 != null)
+                    if (currentDefenseItem1 != "")
                     {
                         if (currentDefenseItem1 == "broche")
+                        {
                             brocheQuant++;
+                            Debug.Log("certo");
+                        }
                         else if (currentDefenseItem1 == "oculos")
                             oculosQuant++;
                         else if (currentDefenseItem1 == "jaqueta")
@@ -79,7 +89,10 @@ public class InventoryHandler : ScriptableObject
                     if (newItem == "broche")
                         brocheQuant--;
                     else if (newItem == "oculos")
+                    {
+                        Debug.Log("certo tmb");
                         oculosQuant--;
+                    }
                     else if (newItem == "jaqueta")
                         jaquetaQuant--;
                     currentDefenseItem1 = newItem;
@@ -92,7 +105,7 @@ public class InventoryHandler : ScriptableObject
             {
                 if (newItem == itensDano[i])
                 {
-                    if (currentAttackItem2 != null)
+                    if (currentAttackItem2 != "")
                     {
                         if (currentAttackItem2 == "caderno")
                             cadernoQuant++;
@@ -114,7 +127,7 @@ public class InventoryHandler : ScriptableObject
             {
                 if (newItem == itensDefesa[i])
                 {
-                    if (currentDefenseItem2 != null)
+                    if (currentDefenseItem2 != "")
                     {
                         if (currentDefenseItem2 == "broche")
                             brocheQuant++;
@@ -246,32 +259,82 @@ public class InventoryHandler : ScriptableObject
         else if (name == "jaqueta")
             jaquetaQuant++;
     }
-    public void HealPlayer(string item, string qualPlayer) {
+    public void HealPlayer(string item) {
         if (item == "curativo") {
             curativoQuant--;
-            if (qualPlayer == "player1")
-                hp1 += 0.1f;
-            else if (qualPlayer == "player2")
-                hp2 += 0.1f;
+            hp += 0.1f;
         }
         else if (item == "suco")
         {
             sucoQuant--;
-            if (qualPlayer == "player1")
-                hp1 += 0.15f;
-            else if (qualPlayer == "player2")
-                hp2 += 0.15f;
+            hp += 0.15f;
         }
         else if (item == "fruta")
         {
             frutaQuant--;
-            if (qualPlayer == "player1")
-                hp1 += 0.2f;
-            else if (qualPlayer == "player2")
-                hp2 += 0.2f;
+            hp += 0.2f;
+
         }
     }
     public void SetSpawnI(Transform newSpawn) {
         spawnpoint.position = newSpawn.position;
+    }
+    public void GotBuff()
+    {
+        if (enemies.normalBullies)
+        {
+            attackBuff = true;
+        }
+        else if (enemies.boss1)
+        {
+            empathyBuff = true;
+        }
+        else if (enemies.boss2) 
+        {
+            healingBuff = true;
+        }
+    }
+    public void ChangeBuffs(string newBuff, string qualPlayer)
+    {
+        if (qualPlayer == "player1")
+        {
+            Debug.Log(newBuff);
+            if (currentEquippedBuff1 != "")
+            {
+                if (currentEquippedBuff1 == "buffAtk" && currentEquippedBuff1 != newBuff)
+                    attackBuff = true;
+                else if (currentEquippedBuff1 == "buffHeal" && currentEquippedBuff1 != newBuff)
+                    healingBuff = true;
+                else if (currentEquippedBuff1 == "buffEmpathy" && currentEquippedBuff1 != newBuff)
+                    empathyBuff = true;
+            }
+            if (newBuff == "buffAtk" && currentEquippedBuff1 != newBuff)
+                attackBuff = false;
+            else if (newBuff == "buffHeal" && currentEquippedBuff1 != newBuff)
+                healingBuff = false;
+            else if (newBuff == "buffEmpathy" && currentEquippedBuff1 != newBuff)
+                empathyBuff = false;
+            currentEquippedBuff1 = newBuff;
+        }
+
+        if (qualPlayer == "player2")
+        {
+            if (currentAttackItem1 != "")
+            {
+                if (currentEquippedBuff2 == "buffAtk" && currentEquippedBuff2 != newBuff)
+                    attackBuff = true;
+                else if (currentEquippedBuff2 == "buffHeal" && currentEquippedBuff2 != newBuff)
+                    healingBuff = true;
+                else if (currentEquippedBuff2 == "buffEmpathy" && currentEquippedBuff2 != newBuff)
+                    empathyBuff = true;
+            }
+            if (newBuff == "buffAtk" && currentEquippedBuff2 != newBuff)
+                attackBuff = false;
+            else if (newBuff == "buffHeal" && currentEquippedBuff2 != newBuff)
+                healingBuff = false;
+            else if (newBuff == "buffEmpathy" && currentEquippedBuff2 != newBuff)
+                empathyBuff = false;
+            currentEquippedBuff2 = newBuff;
+        }
     }
 }

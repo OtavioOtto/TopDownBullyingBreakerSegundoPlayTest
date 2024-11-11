@@ -15,17 +15,22 @@ MonoBehaviour:
   curativoQuant: 0
   sucoQuant: 0
   frutaQuant: 0
-  brocheQuant: 0
-  oculosQuant: 0
-  jaquetaQuant: 0
-  cadernoQuant: 0
-  lapisQuant: 0
-  tesouraQuant: 0
-  currentAttackItem1: 
-  currentDefenseItem1: 
+  brocheQuant: 1
+  oculosQuant: 1
+  jaquetaQuant: 1
+  cadernoQuant: 1
+  lapisQuant: 1
+  tesouraQuant: 1
+  hasAnyBuffs: 0
+  attackBuff: 1
+  healingBuff: 1
+  empathyBuff: 1
+  currentAttackItem1: lapis
+  currentDefenseItem1: broche
   currentEquippedBuff1: 
-  hp1: 1
-  hp2: 1
+  hp: 1
+  spawnpoint: {fileID: 0}
   currentAttackItem2: 
-  currentDefenseItem2: 
+  currentDefenseItem2: oculos
   currentEquippedBuff2: 
+  enemies: {fileID: 0}
